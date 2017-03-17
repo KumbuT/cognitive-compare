@@ -1,13 +1,16 @@
 var clarifaiSpinner;
 var clarifaiAi = {
-    getClarifaiResult: function (imageUrl, callback) {
+    getClarifaiResult: function (imageUrl, model, callback) {
         let iUrl = imageUrl;
         iUrl = imageUrl.replace(/^(\/\/||\/)*/g, '');
         if (!iUrl.startsWith('http')) {
             iUrl = "http://" + iUrl;
         }
         console.log("ImageUrl:" + iUrl);
-        let postData = { 'url': iUrl };
+        let postData = {
+            'url': iUrl,
+            'model': model
+        };
         $.ajax({
             url: apiEndpoint + '/api/v0/image/processimageClarifai',
             type: 'POST',

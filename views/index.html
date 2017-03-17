@@ -35,7 +35,6 @@
 
         window.appInsights = appInsights;
         appInsights.trackPageView();
-
     </script>
     <div class="frontpage_header">
         <nav class="navbar navbar-default navbar-fixed-top">
@@ -58,8 +57,17 @@
                             <a href="#upload" data-toggle="collapse">
                                 <u>U</u>pload</a>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Get More Images<b class="caret"></b></a>
+                            <ul id="image-category" class="dropdown-menu">
+                                <li><a href="#">Celebrities</a></li>
+                                <li><a href="#">NSFW</a></li>
+                                <li><a href="#">Buildings</a></li>
+                                <li><a href="#">People</a></li>
+                                <li><a href="#">Animals</a></li>
+                            </ul>
+                        </li>
                         <li><a href="#about" data-toggle="modal" data-target="#about-modal">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
                     </ul>
                     <!--<p class="navbar-text navbar-right right-pad"><a href="https://www.microsoft.com/cognitive-services/" class="navbar-link">Powered by Microsoft Cognitive Services&copy;</a></p>-->
                 </div>
@@ -132,7 +140,25 @@
                 <p>Search Images by Visual Similarity Find content by visual similarity, keyword tag, or a combination of both
                     so you can serve powerful image-based recommendations and related content in real-time.</p>
                 <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More &raquo;</a></p>
-                 <div class="row">
+                <div class="row bottom-buffer">
+                    <div class="col-xs-4 no-padding">
+                        <div class="label label-default">Select Model</div>
+                    </div>
+                    <div class="col-xs-8 no-padding">
+                        <select id="clarifai-model-select">
+                       <option value="Apparel">Apparel-Coming Soon</option>
+                       <option value="Celebrity">Celebrity-Coming Soon</option>
+                       <option value="Color">Color</option>
+                       <option value="FaceDetection" selected>Face Detection</option>
+                       <option value="Food">Food</option>
+                       <option value="General">General</option>
+                       <option value="NSFW">NSFW</option>
+                       <option value="Travel">Travel</option>
+                       <option value="Wedding">Wedding</option>
+                   </select>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-lg-12">
                         <div id="clarifai-image-analysis"></div>
                     </div>

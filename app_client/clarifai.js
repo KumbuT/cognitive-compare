@@ -14,9 +14,22 @@ var clarifaiVisionAi = {
             );
         }
     },
-    getPrediction: function (iUrl, callback) {
+    getPrediction: function (iUrl,model, callback) {
         if (!app) { this.initApp(); }
-        app.models.predict(Clarifai.GENERAL_MODEL, iUrl).then(
+        var selectedModel;
+        switch(model){
+            case "Apparel": selectedModel = Clarifai.GENERAL_MODELl; break;
+            case "Color": selectedModel = Clarifai.COLOR_MODEL; break;
+            case "Celebrity": selectedModel = Clarifai.FACE_DETECT_MODEL; break;
+            case "FaceDetection": selectedModel = Clarifai.FACE_DETECT_MODEL; break;
+            case "Food": selectedModel = Clarifai.FOOD_MODEL; break;
+            case "General": selectedModel = Clarifai.GENERAL_MODELl; break;
+            case "NSFW": selectedModel = Clarifai.NSFW_MODEL; break;
+            case "Travel": selectedModel = Clarifai.TRAVEL_MODEL; break;
+            case "Wedding": selectedModel = Clarifai.WEDDINGS_MODEL; break;
+
+        }
+        app.models.predict(selectedModel, iUrl).then(
             function (response) {
                 console.log(response);
                 callback(null,response);

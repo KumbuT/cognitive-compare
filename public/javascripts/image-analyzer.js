@@ -1,10 +1,25 @@
+var selectedImage;
 $().ready(function () {
     initDropZone();
     var slick = initSlick();
     addImages();
     $('.image-carousel').on("click", "img.thumbnail", function () {
         console.log("clicked " + $(this)[0].src);
-        getImageAnalysis($(this)[0]);
+        selectedImage = $(this)[0];
+        getImageAnalysisV2($(this)[0], provider.MICROSOFT);
+        getImageAnalysisV2($(this)[0], provider.IBM);
+        getImageAnalysisV2($(this)[0], provider.CLARIFAI);
+    });
+
+    $('#clarifai-model-select').on("change", function () {
+        if(selectedImage){
+            getImageAnalysisV2(selectedImage, provider.CLARIFAI);
+        }
+    });
+
+    $('#image-category li').on("click",function(){
+        addImages($(this).text());
+        console.log($(this).text());
     });
 });
 
@@ -12,6 +27,11 @@ $().ready(function () {
 var apiEndpoint = "http://cognitive-compare.azurewebsites.net";
 //var apiEndpoint = "http://localhost:3000";
 
+var provider = {
+    IBM: "IBM",
+    MICROSOFT: "MICROSOFT",
+    CLARIFAI: "CLARIFAI"
+};
 var opts = {
     lines: 13 // The number of lines to draw
     , length: 28 // The length of each line
@@ -34,7 +54,7 @@ var opts = {
     , hwaccel: false // Whether to use hardware acceleration
     , position: 'absolute' // Element positioning
 };
-var addImages = function () {
+var addImages = function (imgurTags) {
     console.log("called addImages");
     try {
 
@@ -44,13 +64,12 @@ var addImages = function () {
     }
     finally {
         initSlick();
-        // for (i = 1; i < 6; i++) {
-        //     $('.image-carousel').slick('slickAdd', '<div><img alt-text="image" enctype="multipart/form-data" class="thumbnail" src="/images/' + i + '.jpg"></img></div>');
-        // }
-        //$('.image-carousel')[0].slick.refresh();
+        if(!imgurTags){
+            imgurTags ="people";
+        }
         $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
             {
-                tags: "people",
+                tags: imgurTags,
                 tagmode: "any",
                 format: "json"
             },
@@ -128,7 +147,7 @@ var initSlick = () => {
     var opts = {
         centerMode: true,
         centerPadding: '60px',
-        infinite:true,
+        infinite: true,
         dots: true,
         arrows: false,
         variableWidth: true,
@@ -153,63 +172,43 @@ var initSlick = () => {
     };
     return $('.image-carousel').slick(opts);
 };
-
-var getImageAnalysis = function (imgObj) {
-    //write code here
-    console.log("Iniside getImageAnalysis " + imgObj.src);
-    microsoftCognitiveSvc.getMsResult(imgObj.src, function (data, status, error) {
-        if (!error) {
-            try { $('#ms-result-panel').remove(); }
-            finally {
-                $('#microsoft-image-analysis').append("<div id='ms-result-panel' class='panel-group'>"
-                    + "<div class='panel panel-default'>"
-                    + "<div class='panel-heading'><h2 class='panel-title'><a href='#ms-panel-body' data-toggle='collapse'>Analysis result</a></h2></div>"
-                    + "<div id='ms-panel-body' class='panelcollapse collapse'>"
-                    + "<div class='panel-body text-left'><pre><code>"
-                    + syntaxHighlight(data)
-                    + "</code></pre></div>"
-                    + "</div>"
-                    + "</div>"
-                    + "</div>");
+var buildResultPanel = function (panelName, parentPanelName, data) {
+    try { $('#' + panelName).remove(); }
+    finally {
+        $('#' + parentPanelName).append("<div id='" + panelName + "' class='panel-group'>"
+            + "<div class='panel panel-default'>"
+            + "<div class='panel-heading'><h2 class='panel-title'><a href='#" + panelName + "-body' data-toggle='collapse'>Analysis result</a></h2></div>"
+            + "<div id='" + panelName + "-body' class='panelcollapse collapse'>"
+            + "<div class='panel-body text-left'><pre><code>"
+            + syntaxHighlight(data)
+            + "</code></pre></div>"
+            + "</div>"
+            + "</div>"
+            + "</div>");
+    }
+};
+var getImageAnalysisV2 = function (imgObj, providerName) {
+    var panelName;
+    switch (providerName) {
+        case provider.IBM: ibmVisionRecognition.getIbmResult(imgObj.src, function (data, status, error) {
+            if (!error) {
+                buildResultPanel("ibm-result-panel", "ibm-image-analysis", data);
             }
-        }
-    });
-
-    ibmVisionRecognition.getIbmResult(imgObj.src, function (data, status, error) {
-        if (!error) {
-            try { $('#ibm-result-panel').remove(); }
-            finally {
-                $('#ibm-image-analysis').append("<div id='ibm-result-panel' class='panel-group'>"
-                    + "<div class='panel panel-default'>"
-                    + "<div class='panel-heading'><h2 class='panel-title'><a href='#ibm-panel-body' data-toggle='collapse'>Analysis result</a></h2></div>"
-                    + "<div id='ibm-panel-body' class='panelcollapse collapse'>"
-                    + "<div class='panel-body text-left'><pre><code>"
-                    + syntaxHighlight(data)
-                    + "</code></pre></div>"
-                    + "</div>"
-                    + "</div>"
-                    + "</div>");
+        });
+            break;
+        case provider.MICROSOFT: panelName = microsoftCognitiveSvc.getMsResult(imgObj.src, function (data, status, error) {
+            if (!error) {
+                buildResultPanel("ms-result-panel", "microsoft-image-analysis", data);
             }
-        }
-    });
-
-    clarifaiAi.getClarifaiResult(imgObj.src, function (data, status, error) {
-        if (!error) {
-            try { $('#clarifai-result-panel').remove(); }
-            finally {
-                $('#clarifai-image-analysis').append("<div id='clarifai-result-panel' class='panel-group'>"
-                    + "<div class='panel panel-default'>"
-                    + "<div class='panel-heading'><h2 class='panel-title'><a href='#clarifai-panel-body' data-toggle='collapse'>Analysis result</a></h2></div>"
-                    + "<div id='clarifai-panel-body' class='panelcollapse collapse'>"
-                    + "<div class='panel-body text-left'><pre><code>"
-                    + syntaxHighlight(data)
-                    + "</code></pre></div>"
-                    + "</div>"
-                    + "</div>"
-                    + "</div>");
+        });
+            break;
+        case provider.CLARIFAI: panelName = clarifaiAi.getClarifaiResult(imgObj.src,$('#clarifai-model-select').val(), function (data, status, error) {
+            if (!error) {
+                buildResultPanel("clarifai-result-panel", "clarifai-image-analysis", data);
             }
-        }
-    });
+        });
+            break;
+    }
 
 };
 

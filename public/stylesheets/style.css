@@ -48,3 +48,6 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
 .image-carousel img{
     height: 10em;
 }
+
+.top-buffer { margin-top:20px; }
+.bottom-buffer { margin-bottom:20px; }
