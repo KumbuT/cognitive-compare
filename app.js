@@ -3,8 +3,11 @@ var expressSession = require('express-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var socket_io = require('socket.io');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var imagePurger = require('./common/filePurge.js');
+
 
 var index = require('./routes/index.js');
 var api = require('./routes/api.js');
@@ -15,6 +18,16 @@ var app = express();
 //setup the appRoot global 
 
 global.appRoot = path.resolve(__dirname);
+
+/**
+ * Setup Socket IO
+ */
+
+var io = socket_io();
+app.io = io;
+io.on("connection", function (socket) {
+  console.log("A user connected");
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/api/v0/', api);
 
-
+//start file watcher
+imagePurger.startWatching(io);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

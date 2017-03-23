@@ -8,6 +8,7 @@
     <meta name="author" content="Apoorva Teja">
     <link rel="icon" type="image/png" href="/images/image-analyzer-icon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.js"></script>
     <script type="text/javascript" src="/javascripts/microsoft-cognitive-service.js"></script>
@@ -65,6 +66,8 @@
                                 <li><a href="#">Buildings</a></li>
                                 <li><a href="#">People</a></li>
                                 <li><a href="#">Animals</a></li>
+                                <li><a href="#">Wedding</a></li>
+                                <li><a href="#">Emotions</a></li>
                             </ul>
                         </li>
                         <li><a href="#about" data-toggle="modal" data-target="#about-modal">About</a></li>
@@ -99,6 +102,18 @@
                     content.
                 </p>
                 <p><a class="btn btn-default" href="https://www.microsoft.com/cognitive-services/" target="_new" role="button">Read More &raquo;</a></p>
+                <div class="row bottom-buffer">
+                    <div class="col-xs-3">
+                        <div class="label label-default">Choose API</div>
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="ms-api-select">
+                            <option value="MsEmotionAPI">Emotion</option>
+                            <option value="MsFaceAPI">Face</option>
+                            <option value="MsComputerVisionApi" selected>Computer Vision</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="microsoft-image-analysis"></div>
@@ -141,13 +156,13 @@
                     so you can serve powerful image-based recommendations and related content in real-time.</p>
                 <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More &raquo;</a></p>
                 <div class="row bottom-buffer">
-                    <div class="col-xs-4 no-padding">
+                    <div class="col-xs-4">
                         <div class="label label-default">Select Model</div>
                     </div>
-                    <div class="col-xs-8 no-padding">
+                    <div class="col-xs-8">
                         <select id="clarifai-model-select">
-                       <option value="Apparel">Apparel-Coming Soon</option>
-                       <option value="Celebrity">Celebrity-Coming Soon</option>
+                       <option value="Apparel" disabled>Apparel-Coming Soon</option>
+                       <option value="Celebrity" disabled>Celebrity-Coming Soon</option>
                        <option value="Color">Color</option>
                        <option value="FaceDetection" selected>Face Detection</option>
                        <option value="Food">Food</option>

@@ -4,8 +4,9 @@ var secrets = require('../secrets/secrets.js');
 
 var imageUrl = '';
 
-var getImageAnalysis = function (imageUrl, callback) {
+var getImageAnalysis = function (imageUrl,apiMethod, callback) {
     console.log('imageUrl' + imageUrl);
+    console.log('api' + apiMethod);
     var options = {
         host: 'westus.api.cognitive.microsoft.com',
         path: '/vision/v1.0/analyze?visualFeatures=Faces,Categories,Tags,Faces,Adult,Color,Description&details=Celebrities&language=en',
@@ -13,8 +14,14 @@ var getImageAnalysis = function (imageUrl, callback) {
         port: 443,
         headers: {
             'Content-Type': 'application/json',
-            'Ocp-Apim-Subscription-Key': secrets['Ocp-Apim-Subscription-Key'].toString()
+            'Ocp-Apim-Subscription-Key': secrets.microsoft.computerVision.toString()
         }
+    };
+    switch(apiMethod){
+        case "MsEmotionAPI":options.headers['Ocp-Apim-Subscription-Key'] = secrets.microsoft.emotion.toString();options.path='/emotion/v1.0/recognize/'; break;
+        case "MsFaceAPI": options.headers['Ocp-Apim-Subscription-Key'] = secrets.microsoft.face.toString() ; options.path='/face/v1.0/detect?returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=age,gender,headPose,smile,facialHair,glasses';break;
+        case "MsComputerVisionApi":options.headers['Ocp-Apim-Subscription-Key'] = secrets.microsoft.computerVision.toString();options.path = '/vision/v1.0/analyze?visualFeatures=Faces,Categories,Tags,Faces,Adult,Color,Description&details=Celebrities&language=en'; break;
+        default:options.headers['Ocp-Apim-Subscription-Key'] = secrets.microsoft.computerVision.toString(); options.path = '/vision/v1.0/analyze?visualFeatures=Faces,Categories,Tags,Faces,Adult,Color,Description&details=Celebrities&language=en';
     };
     console.log(JSON.stringify(options));
     var postData = JSON.stringify({
@@ -30,7 +37,6 @@ var getImageAnalysis = function (imageUrl, callback) {
                 body += chunk;
             });
             res.on('end', function () {
-                console.log('calling callback');
                 var json = JSON.parse(JSON.stringify(eval("(" + body + ")")));
                 callback(false, json);
             });

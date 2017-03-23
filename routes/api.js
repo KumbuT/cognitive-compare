@@ -66,7 +66,8 @@ var getImages = function (req, res, next) {
 var processImage = function (req, res, next, serviceProvider) {
     try {
         var imageUrl = req.body.url;
-        var model = req.body.model;
+        if (Object.prototype.hasOwnProperty.call(req.body,'model')) { var model = req.body.model; }
+        if (Object.prototype.hasOwnProperty.call(req.body,'api')) { var apiMethod = req.body.api; }
     }
     catch (e) { console.log(e); }
     finally {
@@ -83,7 +84,7 @@ var processImage = function (req, res, next, serviceProvider) {
             };
             try {
                 switch (serviceProvider) {
-                    case imageAnalysisServiceProvider.MICROSOFT: cognitiveService(imageUrl, callback); break;
+                    case imageAnalysisServiceProvider.MICROSOFT: cognitiveService(imageUrl,apiMethod, callback); break;
                     case imageAnalysisServiceProvider.IBM: watsonVisionService(imageUrl, callback); break;
                     case imageAnalysisServiceProvider.CLARIFAI: clarifaiVisionAi.getPrediction(imageUrl, model, callback); break;
                 }

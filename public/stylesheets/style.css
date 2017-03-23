@@ -46,8 +46,12 @@ pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
 }
 
 .image-carousel img{
-    height: 10em;
+    height: 15em;
 }
 
 .top-buffer { margin-top:20px; }
 .bottom-buffer { margin-bottom:20px; }
+
+.mask-img{
+    opacity: .30;
+}

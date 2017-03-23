@@ -1,6 +1,7 @@
 var selectedImage;
+var myDropZone;
 $().ready(function () {
-    initDropZone();
+    myDropZone = initDropZone();
     var slick = initSlick();
     addImages();
     $('.image-carousel').on("click", "img.thumbnail", function () {
@@ -12,18 +13,53 @@ $().ready(function () {
     });
 
     $('#clarifai-model-select').on("change", function () {
-        if(selectedImage){
+        if (selectedImage) {
             getImageAnalysisV2(selectedImage, provider.CLARIFAI);
         }
     });
 
-    $('#image-category li').on("click",function(){
+    $('#image-category li').on("click", function () {
         addImages($(this).text());
         console.log($(this).text());
     });
+
+    $('#ms-api-select').on("change", function () {
+        console.log(this.value);
+        if (selectedImage) {
+            getImageAnalysisV2(selectedImage, provider.MICROSOFT);
+        }
+    });
 });
 
-//setup your DEV or PROD API Endpoint
+
+/**
+ * init socket
+ */
+var io = io();
+
+/**
+ * io events
+ */
+
+io.on('deleteImage', function (data) {
+    try {
+        console.log('Server purged this file-->' + data);
+        images = myDropZone.dropzone.getAcceptedFiles();
+        var fileToRemove = images.reduce(function (acc, val) {
+            if (val.image == data) {
+                acc = data;
+            }
+        });
+        addImages(); myDropZone.dropzone.removeFile(fileToRemove);
+    }
+    catch (err) {
+        //not for you
+    }
+});
+
+/**
+ * setup your DEV or PROD API Endpoint
+ */
 var apiEndpoint = "http://cognitive-compare.azurewebsites.net";
 //var apiEndpoint = "http://localhost:3000";
 
@@ -55,7 +91,6 @@ var opts = {
     , position: 'absolute' // Element positioning
 };
 var addImages = function (imgurTags) {
-    console.log("called addImages");
     try {
 
         // $('.image-carousel')[0].slick.refresh();
@@ -64,9 +99,10 @@ var addImages = function (imgurTags) {
     }
     finally {
         initSlick();
-        if(!imgurTags){
-            imgurTags ="people";
+        if (!imgurTags) {
+            imgurTags = "people";
         }
+
         $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
             {
                 tags: imgurTags,
@@ -79,6 +115,12 @@ var addImages = function (imgurTags) {
                     $('.image-carousel').slick('slickAdd', '<div><img alt-text="image" enctype="multipart/form-data" class="thumbnail" src="' + image.media.m + '"></img></div>');
                 });
                 $('.image-carousel')[0].slick.refresh();
+                if (imgurTags === 'NSFW' && !$('image-carousel img').hasClass('mask-img')) {
+                    $('.image-carousel img').addClass('mask-img');
+                }
+                else {
+                    $('.image-carousel img').removeClass('mask-img');
+                }
             });
 
         $.ajax({
@@ -105,7 +147,7 @@ var removeImage = function (fileName) {
         url: apiEndpoint + '/api/v0/image/delete/' + fileName,
         type: 'DELETE',
         success: function (data, status) {
-            console.log('deleted file' + fileName);
+            //console.log('deleted file' + fileName);
             addImages();
         },
         error: function (xhr, status, error) {
@@ -137,9 +179,11 @@ var initDropZone = () => {
             });
         }
     };
+
     $('#upload').append('<form id="add-my-image"></form>');
     $('form#add-my-image').addClass('dropzone');
-    var myDropZone = $("form#add-my-image").dropzone(dropZoneOpts);
+    var myDz = $("form#add-my-image").dropzone(dropZoneOpts);
+    return myDz[0];
 };
 
 
@@ -188,7 +232,6 @@ var buildResultPanel = function (panelName, parentPanelName, data) {
     }
 };
 var getImageAnalysisV2 = function (imgObj, providerName) {
-    var panelName;
     switch (providerName) {
         case provider.IBM: ibmVisionRecognition.getIbmResult(imgObj.src, function (data, status, error) {
             if (!error) {
@@ -196,18 +239,19 @@ var getImageAnalysisV2 = function (imgObj, providerName) {
             }
         });
             break;
-        case provider.MICROSOFT: panelName = microsoftCognitiveSvc.getMsResult(imgObj.src, function (data, status, error) {
+        case provider.MICROSOFT: microsoftCognitiveSvc.getMsResult(imgObj.src, $('#ms-api-select').val(), function (data, status, error) {
             if (!error) {
                 buildResultPanel("ms-result-panel", "microsoft-image-analysis", data);
             }
         });
             break;
-        case provider.CLARIFAI: panelName = clarifaiAi.getClarifaiResult(imgObj.src,$('#clarifai-model-select').val(), function (data, status, error) {
+        case provider.CLARIFAI: clarifaiAi.getClarifaiResult(imgObj.src, $('#clarifai-model-select').val(), function (data, status, error) {
             if (!error) {
                 buildResultPanel("clarifai-result-panel", "clarifai-image-analysis", data);
             }
         });
             break;
+        default: ""
     }
 
 };

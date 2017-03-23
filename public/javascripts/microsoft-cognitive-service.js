@@ -1,14 +1,17 @@
 var msSpinner;
 
 var microsoftCognitiveSvc = {
-    getMsResult: function (imageUrl, callbackMS) {
+    getMsResult: function (imageUrl, apiMethod, callbackMS) {
         let iUrl = imageUrl;
         iUrl = imageUrl.replace(/^(\/\/||\/)*/g, '');
         if (!iUrl.startsWith('http')) {
             iUrl = "http://" + iUrl;
         }
         console.log("ImageUrl:" + iUrl);
-        let postData = { 'url': iUrl };
+        let postData = {
+            'url': iUrl,
+            'api': apiMethod
+        };
 
         $.ajax({
 

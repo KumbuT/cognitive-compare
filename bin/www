@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('imageanalyzerv2:server');
 var http = require('http');
 
+
 /**
  * Get port from environment and store in Express.
  */
@@ -20,6 +21,14 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
+
+
+/**
+ * Initialize Socket.io
+ */
+var io = app.io;
+io.attach(server);
+
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -88,3 +97,9 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+
+
+exports.getIo = function(){
+    return io;
+};
