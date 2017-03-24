@@ -1,5 +1,5 @@
 
-<a href="http://cognitive-compare.azurewebsites.net"><img src="http://cognitive-compare.azurewebsites.net/favicon.ico" height="48px" width="48px"></img></a><h1>cognitive-compare</h1>
+<a href="http://cognitive-compare.azurewebsites.net"><img src="http://cognitive-compare.azurewebsites.net/favicon.ico" height="48px" width="48px"></img><h1>cognitive-compare</h1></a>
 
 ----
 Cognitive Compare is a pilot project to compare computer vision services from leading providers like:
