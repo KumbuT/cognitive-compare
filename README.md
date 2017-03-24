@@ -1,6 +1,6 @@
-[![Cognitive Compare Logo](http://cognitive-compare.azurewebsites.net/favicon.ico)](http://cognitive-compare.azurewebsites.net)
 
-# cognitive-compare 
+# cognitive-compare <a href="http://cognitive-compare.azurewebsites.net"><img src="http://cognitive-compare.azurewebsites.net/favicon.ico" height="48px" width="48px"></img></a>
+
 ----
 Cognitive Compare is a pilot project to compare computer vision services from leading providers like:
  - [x] Microsoft
