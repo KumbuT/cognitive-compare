@@ -35,7 +35,7 @@ Cognitive Compare is built on several open-source technologies:
 |**Microsoft**|Emotion Recognition API v1.0|[Emotion Recognition][2]|Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. |
 |**Microsoft**|Face API v1.0|[Face API][3]|Detect human faces in an image and returns face locations, and optionally with faceIds, landmarks, and attributes.|
 |**IBM**|Visual Recognition|[Visual Recognition][4]|The IBM Watson™ Visual Recognition service uses deep learning algorithms to analyze images for scenes, objects, faces, and other content. The response includes keywords that provide information about the content.|
-|**Clarifai**|Clarifai API|[Predict][5]|The Clarifai API offers image and video recognition as a service. Whether you have one image or billions, you are only steps away from using artificial intelligence to recognize your visual content.|
+|**Clarifai**|Clarifai API|[Predict][5]|The Clarifai API offers image and video recognition as a service. Whether you have one image or billions, you are only steps away from using artificial intelligence to recognize your visual content.<br><h4>Implemented Models</h4><ul><li>Apparel *Coming Soon*</li><li>Celebrity *Coming Soon*</li><li>Color</li><li>Face Detection</li><li>Food</li><li>General</li><li>NSFW</li><li>Travel</li><li>Wedding</li>|
 |**Google**||||
 
 License
