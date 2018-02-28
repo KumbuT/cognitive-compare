@@ -1,6 +1,10 @@
 var selectedImage;
 var myDropZone;
 $().ready(function () {
+    if (location.protocol != 'https:')
+{
+ location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+}
     myDropZone = initDropZone();
     var slick = initSlick();
     addImages();
@@ -60,7 +64,7 @@ io.on('deleteImage', function (data) {
 /**
  * setup your DEV or PROD API Endpoint
  */
-var apiEndpoint = "http://cognitive-compare.azurewebsites.net";
+var apiEndpoint = "https://cognitive-compare.azurewebsites.net";
 //var apiEndpoint = "http://localhost:3000";
 
 var provider = {
@@ -103,7 +107,7 @@ var addImages = function (imgurTags) {
             imgurTags = "people";
         }
 
-        $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
+        $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
             {
                 tags: imgurTags,
                 tagmode: "any",
