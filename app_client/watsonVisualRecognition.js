@@ -4,10 +4,10 @@ var secrets = require('../secrets/secrets.js');
 
 var getWatsonImageAnalysis = function (imageUrl, callback) {
     console.log('imageUrl' + imageUrl);
-    var queryString = 'api_key=' + secrets['watson-cloud-dev-api-key'].toString() + '&url=' + imageUrl + '&version=2016-05-20';
+    var queryString = 'api_key=' + secrets['watson-cloud-dev-api-key'].toString() + '&url=' + imageUrl + '&version=2018-03-19';
 
     var options = {
-        host: 'gateway-a.watsonplatform.net',
+        host: 'gateway.watsonplatform.net',
         path: '/visual-recognition/api/v3/detect_faces?' + queryString,
         method: 'GET',
         port: 443
