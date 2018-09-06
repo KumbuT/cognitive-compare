@@ -1,48 +1,26 @@
 var https = require('https');
 var config = require('../config/config.js');
 var secrets = require('../secrets/secrets.js');
+var VisualRecognitionV3 = require('watson-developer-cloud/visual-recognition/v3');
+
+var visualRecognition = new VisualRecognitionV3({
+    version: '2018-03-19',
+    iam_apikey: secrets['watson-cloud-dev-api-key'].toString()
+});
+
 
 var getWatsonImageAnalysis = function (imageUrl, callback) {
-    console.log('imageUrl' + imageUrl);
-    var queryString = 'api_key=' + secrets['watson-cloud-dev-api-key'].toString() + '&url=' + imageUrl + '&version=2016-05-20';
-
-    var options = {
-        host: 'gateway-a.watsonplatform.net',
-        path: '/visual-recognition/api/v3/detect_faces?' + queryString,
-        method: 'GET',
-        port: 443
+    var params = {
+        url: imageUrl
     };
-    console.log(JSON.stringify(options));
-    var req = https.request(options, function (res) {
-        console.log(res.statusCode + ':' + res.statusMessage);
-        var postData = JSON.stringify({
-            'url': imageUrl
-        });
-        if (res.statusCode == 200) {
-            var body = '';
-            res.setEncoding('utf8');
-            res.on('data', function (chunk) {
-                body += chunk;
-            });
-            res.on('end', function () {
-                console.log('calling callback');
-                var json = JSON.parse(JSON.stringify(eval("(" + body + ")")));
-                callback(false, json);
-            });
-
-            res.on('error', (err) => console.log(err));
-
+    visualRecognition.detectFaces(params, function (err, response) {
+        if (err) {
+            console.log(err);
+            callback(true, err)
         } else {
-            callback(res.statusCode, res.statusMessage);
-        }
+            callback(false, response);
+        } //console.log(JSON.stringify(response, null, 2))
     });
-    req.on('error', function (e) {
-        console.log('Problem with request : ' + e.toString());
-        req.end();
-    });
-    // write data to request body
-    //req.write(postData);
-    req.end();
 };
 
 module.exports = getWatsonImageAnalysis;
