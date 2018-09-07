@@ -1,7 +1,7 @@
 var msSpinner;
 
 var microsoftCognitiveSvc = {
-    getMsResult: function (imageUrl, apiMethod, callbackMS) {
+    getMsResult: function (imageUrl, model, callbackMS) {
         let iUrl = imageUrl;
         iUrl = imageUrl.replace(/^(\/\/||\/)*/g, '');
         if (!iUrl.startsWith('http')) {
@@ -10,7 +10,7 @@ var microsoftCognitiveSvc = {
         console.log("ImageUrl:" + iUrl);
         let postData = {
             'url': iUrl,
-            'api': apiMethod
+            'api': model
         };
 
         $.ajax({
@@ -18,7 +18,9 @@ var microsoftCognitiveSvc = {
             url: apiEndpoint + '/api/v0/image/processimageMS',
             type: 'POST',
             data: postData,
-            success: function (data, status) { callbackMS(data, status, null); },
+            success: function (data, status) {
+                callbackMS(data, status, null);
+            },
             error: function (xhr, status, error) {
                 console.log("xhr" + JSON.stringify(xhr) + "\nError:" + error);
                 callbackMS(data, status, error);

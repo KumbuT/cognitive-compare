@@ -29,7 +29,41 @@
 <body>
     <script type="text/javascript">
         var appInsights = window.appInsights || function (config) {
-            function i(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = "AuthenticatedUserContext", h = "start", c = "stop", l = "Track", a = l + "Event", v = l + "Page", y = u.createElement(o), r, f; y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(y); try { t.cookie = u.cookie } catch (p) { } for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; r.length;)i("track" + r.pop()); return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking || (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) { var s = f && f(config, i, u, e, o); return s !== !0 && t["_" + r](config, i, u, e, o), s }), t
+            function i(config) {
+                t[config] = function () {
+                    var i = arguments;
+                    t.queue.push(function () {
+                        t[config].apply(t, i)
+                    })
+                }
+            }
+            var t = {
+                    config: config
+                },
+                u = document,
+                e = window,
+                o = "script",
+                s = "AuthenticatedUserContext",
+                h = "start",
+                c = "stop",
+                l = "Track",
+                a = l + "Event",
+                v = l + "Page",
+                y = u.createElement(o),
+                r, f;
+            y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js";
+            u.getElementsByTagName(o)[0].parentNode.appendChild(y);
+            try {
+                t.cookie = u.cookie
+            } catch (p) {}
+            for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace",
+                    "Dependency"
+                ]; r.length;) i("track" + r.pop());
+            return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking ||
+                (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) {
+                    var s = f && f(config, i, u, e, o);
+                    return s !== !0 && t["_" + r](config, i, u, e, o), s
+                }), t
         }({
             instrumentationKey: "b7947124-48d8-4983-8ae2-12097ec4c800"
         });
@@ -41,13 +75,13 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navnbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-                        aria-controls="navbar">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
                         <span class="sr-only">Toggle Navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                        </button>
+                    </button>
                     <a class="navbar-brand" href="#">
                         <img alt="Brand" src="/images/image-analyzer-icon.png" height="24px">
                     </a>
@@ -98,10 +132,12 @@
             <div class="col-lg-3">
                 <img class="img-square" src="/images/logo-microsoft-icon.png" alt="Microsoft Logo" width="140" height="140">
                 <h2>Microsoft Cognitive Service &copy;</h2>
-                <p>Extract rich information from images to categorize and process visual data—and protect your users from unwanted
+                <p>Extract rich information from images to categorize and process visual data—and protect your users
+                    from unwanted
                     content.
                 </p>
-                <p><a class="btn btn-default" href="https://www.microsoft.com/cognitive-services/" target="_new" role="button">Read More &raquo;</a></p>
+                <p><a class="btn btn-default" href="https://www.microsoft.com/cognitive-services/" target="_new" role="button">Read
+                        More &raquo;</a></p>
                 <div class="row bottom-buffer">
                     <div class="col-xs-3">
                         <div class="label label-default">Choose API</div>
@@ -124,64 +160,86 @@
             <div class="col-lg-3">
                 <img class="img-square" src="/images/logo-ibm-icon.png" alt="IBM Logo" width="140" height="140">
                 <h2>IBM - Visual Recognition &copy;</h2>
-                <p>Visual Recognition understands the contents of images - visual concepts tag the image, find human faces,
-                    approximate age and gender, and find similar images in a collection. You can also train the service by
-                    creating your own custom concepts. Use Visual Recognition to detect a dress type in retail, identify
+                <p>Visual Recognition understands the contents of images - visual concepts tag the image, find human
+                    faces,
+                    approximate age and gender, and find similar images in a collection. You can also train the service
+                    by
+                    creating your own custom concepts. Use Visual Recognition to detect a dress type in retail,
+                    identify
                     spoiled fruit in inventory, and more.</p>
                 <p>
-                    <a class="btn btn-default" href="https://www.ibm.com/watson/developercloud/visual-recognition.html" target="_new" role="button">Read More &raquo;</a>
+                    <a class="btn btn-default" href="https://www.ibm.com/watson/developercloud/visual-recognition.html"
+                        target="_new" role="button">Read More &raquo;</a>
                 </p>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="ibm-image-analysis"></div>
-                    </div>
+                div class="row bottom-buffer">
+                <div class="col-xs-3">
+                    <div class="label label-default">Choose API</div>
+                </div>
+                <div class="col-xs-9">
+                    <select id="ibm-api-select">
+                        <option value="Default" selected>Face</option>
+                        <option value="food">Food</option>
+                        <option value="Explicit" >NSFW/Explicit</option>
+                    </select>
                 </div>
             </div>
-            <!-- /.col-lg-3 -->
-            <div class="col-lg-3">
-                <img class="img-square" src="/images/logo-google-icon.png" alt="Google Logo" width="140" height="140">
-                <h2>Google - Vision API &copy;</h2>
-                <p>Google Cloud Vision API enables developers to understand the content of an image by encapsulating powerful
-                    machine learning models in an easy to use REST API. It quickly classifies images into thousands of categories
-                    (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and finds
-                    and reads printed words contained within images.</p>
-                <p><a class="btn btn-default" href="https://cloud.google.com/vision/" target="_new" role="button">Coming Soon &raquo;</a></p>
-            </div>
-            <!-- /.col-lg-3 -->
-            <!-- /.col-lg-3 -->
-            <div class="col-lg-3">
-                <img class="img-square" src="/images/logo-clarifai.png" alt="Clarifai Logo" width="140" height="140">
-                <h2>Clarifai &copy;</h2>
-                <p>Search Images by Visual Similarity Find content by visual similarity, keyword tag, or a combination of both
-                    so you can serve powerful image-based recommendations and related content in real-time.</p>
-                <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More &raquo;</a></p>
-                <div class="row bottom-buffer">
-                    <div class="col-xs-4">
-                        <div class="label label-default">Select Model</div>
-                    </div>
-                    <div class="col-xs-8">
-                        <select id="clarifai-model-select">
-                       <option value="Apparel" disabled>Apparel-Coming Soon</option>
-                       <option value="Celebrity" disabled>Celebrity-Coming Soon</option>
-                       <option value="Color">Color</option>
-                       <option value="FaceDetection" selected>Face Detection</option>
-                       <option value="Food">Food</option>
-                       <option value="General">General</option>
-                       <option value="NSFW">NSFW</option>
-                       <option value="Travel">Travel</option>
-                       <option value="Wedding">Wedding</option>
-                   </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div id="clarifai-image-analysis"></div>
-                    </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="ibm-image-analysis"></div>
                 </div>
             </div>
-            <!-- /.col-lg-3 -->
         </div>
-        <!-- /.row -->
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-3">
+            <img class="img-square" src="/images/logo-google-icon.png" alt="Google Logo" width="140" height="140">
+            <h2>Google - Vision API &copy;</h2>
+            <p>Google Cloud Vision API enables developers to understand the content of an image by encapsulating
+                powerful
+                machine learning models in an easy to use REST API. It quickly classifies images into thousands of
+                categories
+                (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and
+                finds
+                and reads printed words contained within images.</p>
+            <p><a class="btn btn-default" href="https://cloud.google.com/vision/" target="_new" role="button">Coming
+                    Soon &raquo;</a></p>
+        </div>
+        <!-- /.col-lg-3 -->
+        <!-- /.col-lg-3 -->
+        <div class="col-lg-3">
+            <img class="img-square" src="/images/logo-clarifai.png" alt="Clarifai Logo" width="140" height="140">
+            <h2>Clarifai &copy;</h2>
+            <p>Search Images by Visual Similarity Find content by visual similarity, keyword tag, or a combination of
+                both
+                so you can serve powerful image-based recommendations and related content in real-time.</p>
+            <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More
+                    &raquo;</a></p>
+            <div class="row bottom-buffer">
+                <div class="col-xs-4">
+                    <div class="label label-default">Select Model</div>
+                </div>
+                <div class="col-xs-8">
+                    <select id="clarifai-model-select">
+                        <option value="Apparel" disabled>Apparel-Coming Soon</option>
+                        <option value="Celebrity" disabled>Celebrity-Coming Soon</option>
+                        <option value="Color">Color</option>
+                        <option value="FaceDetection" selected>Face Detection</option>
+                        <option value="Food">Food</option>
+                        <option value="General">General</option>
+                        <option value="NSFW">NSFW</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Wedding">Wedding</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="clarifai-image-analysis"></div>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-lg-3 -->
+    </div>
+    <!-- /.row -->
     </div>
     <!--About Modal Markup Begin-->
     <div id="about-modal" class="modal fade">
@@ -195,9 +253,13 @@
                 </div>
                 <div class="modal-body">
                     <blockquote>
-                        <p>Image Analyzer is a pilot project to compare computer vision services from leading providers like
+                        <p>Image Analyzer is a pilot project to compare computer vision services from leading providers
+                            like
                             Microsoft, IBM Watson, Google and more</p>
                         <p>Uploaded images will be purged after 5 minutes.</p>
+                        Built on Node.js and Express by
+                        <p><a href="https://www.linkedin.com/apoorvateja">Apoorva Teja</a> </p>
+                        <p><a href="https://github.com/KumbuT/cognitive-compare">Find the repo on Github</a></p>
                     </blockquote>
                 </div>
             </div>
