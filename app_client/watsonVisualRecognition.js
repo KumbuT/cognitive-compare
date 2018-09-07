@@ -12,9 +12,10 @@ var visualRecognition = new VisualRecognitionV3({
 var getWatsonImageAnalysis = function (imageUrl, model, callback) {
     var params = {
         url: imageUrl,
-        classifier_ids: model
+        classifier_ids: [model],
+        threshold: 0.0
     };
-    visualRecognition.detectFaces(params, function (err, response) {
+    visualRecognition.classify(params, function (err, response) {
         if (err) {
             console.log(err);
             callback(true, err)

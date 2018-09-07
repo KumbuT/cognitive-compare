@@ -1,10 +1,9 @@
 var selectedImage;
 var myDropZone;
 $().ready(function () {
-    if (location.protocol != 'https:')
-{
- location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-}
+    if (location.protocol != 'https:') {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
     myDropZone = initDropZone();
     var slick = initSlick();
     addImages();
@@ -61,9 +60,9 @@ io.on('deleteImage', function (data) {
                 acc = data;
             }
         });
-        addImages(); myDropZone.dropzone.removeFile(fileToRemove);
-    }
-    catch (err) {
+        addImages();
+        myDropZone.dropzone.removeFile(fileToRemove);
+    } catch (err) {
         //not for you
     }
 });
@@ -81,25 +80,44 @@ var provider = {
 };
 var opts = {
     lines: 13 // The number of lines to draw
-    , length: 28 // The length of each line
-    , width: 14 // The line thickness
-    , radius: 42 // The radius of the inner circle
-    , scale: 1 // Scales overall size of the spinner
-    , corners: 1 // Corner roundness (0..1)
-    , color: '#000' // #rgb or #rrggbb or array of colors
-    , opacity: 0.5 // Opacity of the lines
-    , rotate: 0 // The rotation offset
-    , direction: 1 // 1: clockwise, -1: counterclockwise
-    , speed: 1 // Rounds per second
-    , trail: 60 // Afterglow percentage
-    , fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
-    , zIndex: 2e9 // The z-index (defaults to 2000000000)
-    , className: 'spinner' // The CSS class to assign to the spinner
-    , top: '50%' // Top position relative to parent
-    , left: '50%' // Left position relative to parent
-    , shadow: false // Whether to render a shadow
-    , hwaccel: false // Whether to use hardware acceleration
-    , position: 'absolute' // Element positioning
+        ,
+    length: 28 // The length of each line
+        ,
+    width: 14 // The line thickness
+        ,
+    radius: 42 // The radius of the inner circle
+        ,
+    scale: 1 // Scales overall size of the spinner
+        ,
+    corners: 1 // Corner roundness (0..1)
+        ,
+    color: '#000' // #rgb or #rrggbb or array of colors
+        ,
+    opacity: 0.5 // Opacity of the lines
+        ,
+    rotate: 0 // The rotation offset
+        ,
+    direction: 1 // 1: clockwise, -1: counterclockwise
+        ,
+    speed: 1 // Rounds per second
+        ,
+    trail: 60 // Afterglow percentage
+        ,
+    fps: 20 // Frames per second when using setTimeout() as a fallback for CSS
+        ,
+    zIndex: 2e9 // The z-index (defaults to 2000000000)
+        ,
+    className: 'spinner' // The CSS class to assign to the spinner
+        ,
+    top: '50%' // Top position relative to parent
+        ,
+    left: '50%' // Left position relative to parent
+        ,
+    shadow: false // Whether to render a shadow
+        ,
+    hwaccel: false // Whether to use hardware acceleration
+        ,
+    position: 'absolute' // Element positioning
 };
 var addImages = function (imgurTags) {
     try {
@@ -107,15 +125,13 @@ var addImages = function (imgurTags) {
         // $('.image-carousel')[0].slick.refresh();
         $('.image-carousel').slick("unslick");
         $('.image-carousel').empty();
-    }
-    finally {
+    } finally {
         initSlick();
         if (!imgurTags) {
             imgurTags = "people";
         }
 
-        $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?",
-            {
+        $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?", {
                 tags: imgurTags,
                 tagmode: "any",
                 format: "json"
@@ -128,8 +144,7 @@ var addImages = function (imgurTags) {
                 $('.image-carousel')[0].slick.refresh();
                 if (imgurTags === 'NSFW' && !$('image-carousel img').hasClass('mask-img')) {
                     $('.image-carousel img').addClass('mask-img');
-                }
-                else {
+                } else {
                     $('.image-carousel img').removeClass('mask-img');
                 }
             });
@@ -179,8 +194,12 @@ var initDropZone = () => {
         acceptedFiles: "image/png,image/gif,image/jpeg",
         dictDefaultMessage: "<h2><small>Click or Drop images here to Upload. Only PNG, JPEG and GIF images under 1MB are supported</small></h2>",
         init: function () {
-            this.on("addedfile", function (file) { console.log("file added" + file); });
-            this.on("maxfilesreached", function () { console.log('max file limit of 3 reached'); });
+            this.on("addedfile", function (file) {
+                console.log("file added" + file);
+            });
+            this.on("maxfilesreached", function () {
+                console.log('max file limit of 3 reached');
+            });
             this.on("complete", function () {
                 addImages();
             });
@@ -208,8 +227,7 @@ var initSlick = () => {
         variableWidth: true,
         slidesToShow: 3,
         slidesToScroll: 1,
-        responsive: [
-            {
+        responsive: [{
                 breakpoint: 768,
                 settings: {
                     slidesToShow: 2,
@@ -228,41 +246,46 @@ var initSlick = () => {
     return $('.image-carousel').slick(opts);
 };
 var buildResultPanel = function (panelName, parentPanelName, data) {
-    try { $('#' + panelName).remove(); }
-    finally {
-        $('#' + parentPanelName).append("<div id='" + panelName + "' class='panel-group'>"
-            + "<div class='panel panel-default'>"
-            + "<div class='panel-heading'><h2 class='panel-title'><a href='#" + panelName + "-body' data-toggle='collapse'>Analysis result</a></h2></div>"
-            + "<div id='" + panelName + "-body' class='panelcollapse collapse'>"
-            + "<div class='panel-body text-left'><pre><code>"
-            + syntaxHighlight(data)
-            + "</code></pre></div>"
-            + "</div>"
-            + "</div>"
-            + "</div>");
+    try {
+        $('#' + panelName).remove();
+    } finally {
+        $('#' + parentPanelName).append("<div id='" + panelName + "' class='panel-group'>" +
+            "<div class='panel panel-default'>" +
+            "<div class='panel-heading'><h2 class='panel-title'><a href='#" + panelName + "-body' data-toggle='collapse'>Analysis result</a></h2></div>" +
+            "<div id='" + panelName + "-body' class='panelcollapse collapse'>" +
+            "<div class='panel-body text-left'><pre><code>" +
+            syntaxHighlight(data) +
+            "</code></pre></div>" +
+            "</div>" +
+            "</div>" +
+            "</div>");
     }
 };
 var getImageAnalysisV2 = function (imgObj, providerName) {
     switch (providerName) {
-        case provider.IBM: ibmVisionRecognition.getIbmResult(imgObj.src, $('#ibm-api-select').val(), function (data, status, error) {
-            if (!error) {
-                buildResultPanel("ibm-result-panel", "ibm-image-analysis", data);
-            }
-        });
+        case provider.IBM:
+            ibmVisionRecognition.getIbmResult(imgObj.src, $('#ibm-api-select').val(), function (data, status, error) {
+                if (!error) {
+                    buildResultPanel("ibm-result-panel", "ibm-image-analysis", data);
+                }
+            });
             break;
-        case provider.MICROSOFT: microsoftCognitiveSvc.getMsResult(imgObj.src, $('#ms-api-select').val(), function (data, status, error) {
-            if (!error) {
-                buildResultPanel("ms-result-panel", "microsoft-image-analysis", data);
-            }
-        });
+        case provider.MICROSOFT:
+            microsoftCognitiveSvc.getMsResult(imgObj.src, $('#ms-api-select').val(), function (data, status, error) {
+                if (!error) {
+                    buildResultPanel("ms-result-panel", "microsoft-image-analysis", data);
+                }
+            });
             break;
-        case provider.CLARIFAI: clarifaiAi.getClarifaiResult(imgObj.src, $('#clarifai-model-select').val(), function (data, status, error) {
-            if (!error) {
-                buildResultPanel("clarifai-result-panel", "clarifai-image-analysis", data);
-            }
-        });
+        case provider.CLARIFAI:
+            clarifaiAi.getClarifaiResult(imgObj.src, $('#clarifai-model-select').val(), function (data, status, error) {
+                if (!error) {
+                    buildResultPanel("clarifai-result-panel", "clarifai-image-analysis", data);
+                }
+            });
             break;
-        default: ""
+        default:
+            ""
     }
 
 };
@@ -288,4 +311,3 @@ var syntaxHighlight = function (json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 };
-
