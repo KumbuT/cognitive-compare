@@ -171,75 +171,76 @@
                     <a class="btn btn-default" href="https://www.ibm.com/watson/developercloud/visual-recognition.html"
                         target="_new" role="button">Read More &raquo;</a>
                 </p>
-                div class="row bottom-buffer">
-                <div class="col-xs-3">
-                    <div class="label label-default">Choose API</div>
+                <div class="row bottom-buffer">
+                    <div class="col-xs-3">
+                        <div class="label label-default">Choose API</div>
+                    </div>
+                    <div class="col-xs-9">
+                        <select id="ibm-api-select">
+                            <option value="default" selected>Face</option>
+                            <option value="food">Food</option>
+                            <option value="explicit">NSFW/Explicit</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-xs-9">
-                    <select id="ibm-api-select">
-                        <option value="Default" selected>Face</option>
-                        <option value="food">Food</option>
-                        <option value="Explicit" >NSFW/Explicit</option>
-                    </select>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="ibm-image-analysis"></div>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div id="ibm-image-analysis"></div>
+            <!-- /.col-lg-3 -->
+            <div class="col-lg-3">
+                <img class="img-square" src="/images/logo-google-icon.png" alt="Google Logo" width="140" height="140">
+                <h2>Google - Vision API &copy;</h2>
+                <p>Google Cloud Vision API enables developers to understand the content of an image by encapsulating
+                    powerful
+                    machine learning models in an easy to use REST API. It quickly classifies images into thousands of
+                    categories
+                    (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and
+                    finds
+                    and reads printed words contained within images.</p>
+                <p><a class="btn btn-default" href="https://cloud.google.com/vision/" target="_new" role="button">Coming
+                        Soon &raquo;</a></p>
+            </div>
+            <!-- /.col-lg-3 -->
+            <!-- /.col-lg-3 -->
+            <div class="col-lg-3">
+                <img class="img-square" src="/images/logo-clarifai.png" alt="Clarifai Logo" width="140" height="140">
+                <h2>Clarifai &copy;</h2>
+                <p>Search Images by Visual Similarity Find content by visual similarity, keyword tag, or a combination
+                    of
+                    both
+                    so you can serve powerful image-based recommendations and related content in real-time.</p>
+                <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More
+                        &raquo;</a></p>
+                <div class="row bottom-buffer">
+                    <div class="col-xs-4">
+                        <div class="label label-default">Select Model</div>
+                    </div>
+                    <div class="col-xs-8">
+                        <select id="clarifai-model-select">
+                            <option value="Apparel" disabled>Apparel-Coming Soon</option>
+                            <option value="Celebrity" disabled>Celebrity-Coming Soon</option>
+                            <option value="Color">Color</option>
+                            <option value="FaceDetection" selected>Face Detection</option>
+                            <option value="Food">Food</option>
+                            <option value="General">General</option>
+                            <option value="NSFW">NSFW</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Wedding">Wedding</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="clarifai-image-analysis"></div>
+                    </div>
                 </div>
             </div>
+            <!-- /.col-lg-3 -->
         </div>
-        <!-- /.col-lg-3 -->
-        <div class="col-lg-3">
-            <img class="img-square" src="/images/logo-google-icon.png" alt="Google Logo" width="140" height="140">
-            <h2>Google - Vision API &copy;</h2>
-            <p>Google Cloud Vision API enables developers to understand the content of an image by encapsulating
-                powerful
-                machine learning models in an easy to use REST API. It quickly classifies images into thousands of
-                categories
-                (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images, and
-                finds
-                and reads printed words contained within images.</p>
-            <p><a class="btn btn-default" href="https://cloud.google.com/vision/" target="_new" role="button">Coming
-                    Soon &raquo;</a></p>
-        </div>
-        <!-- /.col-lg-3 -->
-        <!-- /.col-lg-3 -->
-        <div class="col-lg-3">
-            <img class="img-square" src="/images/logo-clarifai.png" alt="Clarifai Logo" width="140" height="140">
-            <h2>Clarifai &copy;</h2>
-            <p>Search Images by Visual Similarity Find content by visual similarity, keyword tag, or a combination of
-                both
-                so you can serve powerful image-based recommendations and related content in real-time.</p>
-            <p><a class="btn btn-default" href="https://www.clarifai.com/" target="_new" role="button">Read More
-                    &raquo;</a></p>
-            <div class="row bottom-buffer">
-                <div class="col-xs-4">
-                    <div class="label label-default">Select Model</div>
-                </div>
-                <div class="col-xs-8">
-                    <select id="clarifai-model-select">
-                        <option value="Apparel" disabled>Apparel-Coming Soon</option>
-                        <option value="Celebrity" disabled>Celebrity-Coming Soon</option>
-                        <option value="Color">Color</option>
-                        <option value="FaceDetection" selected>Face Detection</option>
-                        <option value="Food">Food</option>
-                        <option value="General">General</option>
-                        <option value="NSFW">NSFW</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Wedding">Wedding</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div id="clarifai-image-analysis"></div>
-                </div>
-            </div>
-        </div>
-        <!-- /.col-lg-3 -->
-    </div>
-    <!-- /.row -->
+        <!-- /.row -->
     </div>
     <!--About Modal Markup Begin-->
     <div id="about-modal" class="modal fade">
