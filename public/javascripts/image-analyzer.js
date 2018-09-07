@@ -33,6 +33,13 @@ $().ready(function () {
             getImageAnalysisV2(selectedImage, provider.MICROSOFT);
         }
     });
+
+    $('#ibm-api-select').on("change", function () {
+        console.log(this.value);
+        if (selectedImage) {
+            getImageAnalysisV2(selectedImage, provider.IBM);
+        }
+    });
 });
 
 
@@ -237,7 +244,7 @@ var buildResultPanel = function (panelName, parentPanelName, data) {
 };
 var getImageAnalysisV2 = function (imgObj, providerName) {
     switch (providerName) {
-        case provider.IBM: ibmVisionRecognition.getIbmResult(imgObj.src, function (data, status, error) {
+        case provider.IBM: ibmVisionRecognition.getIbmResult(imgObj.src, $('#ibm-api-select').val(), function (data, status, error) {
             if (!error) {
                 buildResultPanel("ibm-result-panel", "ibm-image-analysis", data);
             }

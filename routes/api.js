@@ -17,8 +17,11 @@ var imageAnalysisServiceProvider = {
 var storage = multer.diskStorage({
     destination: function (req, res, callback) {
         mkdirp(appRoot + '/public/images/' + req.session.id, function (err) {
-            if (err) { console.log(err) }
-            else { console.log("Created a new folder for custom image upload") }
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("Created a new folder for custom image upload")
+            }
         });
         console.log(appRoot + '/public/images/' + req.session.id);
         callback(null, appRoot + '/public/images/' + req.session.id);
@@ -27,7 +30,9 @@ var storage = multer.diskStorage({
         callback(null, file.originalname);
     }
 });
-var upload = multer({ storage: storage }).array('file', 3);
+var upload = multer({
+    storage: storage
+}).array('file', 3);
 var uploadImages = function (req, res, next) {
     //put business logic here
     upload(req, res, function (err) {
@@ -56,8 +61,7 @@ var getImages = function (req, res, next) {
                 res.end(JSON.stringify(files));
             }
         });
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 };
@@ -66,30 +70,40 @@ var getImages = function (req, res, next) {
 var processImage = function (req, res, next, serviceProvider) {
     try {
         var imageUrl = req.body.url;
-        if (Object.prototype.hasOwnProperty.call(req.body,'model')) { var model = req.body.model; }
-        if (Object.prototype.hasOwnProperty.call(req.body,'api')) { var apiMethod = req.body.api; }
-    }
-    catch (e) { console.log(e); }
-    finally {
+        if (Object.prototype.hasOwnProperty.call(req.body, 'model')) {
+            var model = req.body.model;
+        }
+        if (Object.prototype.hasOwnProperty.call(req.body, 'api')) {
+            var apiMethod = req.body.api;
+        }
+    } catch (e) {
+        console.log(e);
+    } finally {
         if (imageUrl !== '') {
             var callback = function (error, json) {
                 //console.log(error + ':' + JSON.stringify(json));
                 if (!error) {
                     res.send(json);
-                }
-                else {
+                } else {
                     console.log("Something went wrong " + error);
-                    res.send({ error });
+                    res.send({
+                        error
+                    });
                 }
             };
             try {
                 switch (serviceProvider) {
-                    case imageAnalysisServiceProvider.MICROSOFT: cognitiveService(imageUrl,apiMethod, callback); break;
-                    case imageAnalysisServiceProvider.IBM: watsonVisionService(imageUrl, callback); break;
-                    case imageAnalysisServiceProvider.CLARIFAI: clarifaiVisionAi.getPrediction(imageUrl, model, callback); break;
+                    case imageAnalysisServiceProvider.MICROSOFT:
+                        cognitiveService(imageUrl, model, callback);
+                        break;
+                    case imageAnalysisServiceProvider.IBM:
+                        watsonVisionService(imageUrl, model, callback);
+                        break;
+                    case imageAnalysisServiceProvider.CLARIFAI:
+                        clarifaiVisionAi.getPrediction(imageUrl, model, callback);
+                        break;
                 }
-            }
-            catch (ex) {
+            } catch (ex) {
                 console.log(ex);
             }
         } else {
@@ -102,11 +116,23 @@ var processImage = function (req, res, next, serviceProvider) {
 var myPostRouter = function (req, res, next) {
     console.log("Method " + req.params.method + " called\n");
     switch (req.params.method) {
-        case 'processimageMS': processImage(req, res, next, imageAnalysisServiceProvider.MICROSOFT); break;
-        case 'processimageIBM': processImage(req, res, next, imageAnalysisServiceProvider.IBM); break;
-        case 'processimageClarifai': processImage(req, res, next, imageAnalysisServiceProvider.CLARIFAI); break;
-        case 'uploadimage': uploadImages(req, res, next); break;
-        default: console.log('Cannot figure out the route for this POST'); res.sendStatus({ code: "404" });
+        case 'processimageMS':
+            processImage(req, res, next, imageAnalysisServiceProvider.MICROSOFT);
+            break;
+        case 'processimageIBM':
+            processImage(req, res, next, imageAnalysisServiceProvider.IBM);
+            break;
+        case 'processimageClarifai':
+            processImage(req, res, next, imageAnalysisServiceProvider.CLARIFAI);
+            break;
+        case 'uploadimage':
+            uploadImages(req, res, next);
+            break;
+        default:
+            console.log('Cannot figure out the route for this POST');
+            res.sendStatus({
+                code: "404"
+            });
     };
 };
 //end of api method switch
@@ -114,7 +140,11 @@ var myPostRouter = function (req, res, next) {
 var deleteImage = function (req, res, next) {
     fileName = req.params.fileName;
     fs.unlink(appRoot + '/public/images/' + req.session.id + '/' + fileName, function (err) {
-        if (err) { console.log(err); } else { console.log('deleted file' + fileName); }
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('deleted file' + fileName);
+        }
     });
     res.end();
 };

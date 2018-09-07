@@ -9,9 +9,10 @@ var visualRecognition = new VisualRecognitionV3({
 });
 
 
-var getWatsonImageAnalysis = function (imageUrl, callback) {
+var getWatsonImageAnalysis = function (imageUrl, model, callback) {
     var params = {
-        url: imageUrl
+        url: imageUrl,
+        classifier_ids: model
     };
     visualRecognition.detectFaces(params, function (err, response) {
         if (err) {

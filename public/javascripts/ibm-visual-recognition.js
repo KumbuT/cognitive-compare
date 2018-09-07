@@ -1,18 +1,23 @@
 var ibmSpinner;
 var ibmVisionRecognition = {
-    getIbmResult: function (imageUrl, callbackIbm) {
+    getIbmResult: function (imageUrl, model, callbackIbm) {
         let iUrl = imageUrl;
         iUrl = imageUrl.replace(/^(\/\/||\/)*/g, '');
         if (!iUrl.startsWith('http')) {
             iUrl = "http://" + iUrl;
         }
         console.log("ImageUrl:" + iUrl);
-        let postData = { 'url': iUrl };
+        let postData = {
+            'url': iUrl,
+            'model': model
+        };
         $.ajax({
-            url: apiEndpoint +'/api/v0/image/processimageIBM',
+            url: apiEndpoint + '/api/v0/image/processimageIBM',
             type: 'POST',
             data: postData,
-            success: function (data, status) { callbackIbm(data, status, null); },
+            success: function (data, status) {
+                callbackIbm(data, status, null);
+            },
             error: function (xhr, status, error) {
                 console.log("xhr" + JSON.stringify(xhr) + "\nError:" + error);
                 callbackIbm(data, status, error);
