@@ -15,14 +15,25 @@ var getWatsonImageAnalysis = function (imageUrl, model, callback) {
         classifier_ids: [model],
         threshold: 0.0
     };
-    visualRecognition.classify(params, function (err, response) {
-        if (err) {
-            console.log(err);
-            callback(true, err)
-        } else {
-            callback(false, response);
-        } //console.log(JSON.stringify(response, null, 2))
-    });
+    if (model == "face") {
+        visualRecognition.detectFaces({url: imageUrl}, function(err, response){
+            if (err) {
+                console.log(err);
+                callback(true, err)
+            } else {
+                callback(false, response);
+            } //console.log(JSON.stringify(response, null, 2))
+        });
+    } else {
+        visualRecognition.classify(params, function (err, response) {
+            if (err) {
+                console.log(err);
+                callback(true, err)
+            } else {
+                callback(false, response);
+            } //console.log(JSON.stringify(response, null, 2))
+        });
+    }
 };
 
 module.exports = getWatsonImageAnalysis;
