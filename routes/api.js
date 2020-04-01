@@ -18,9 +18,9 @@ var storage = multer.diskStorage({
     destination: function (req, res, callback) {
         mkdirp(appRoot + '/public/images/' + req.session.id, function (err) {
             if (err) {
-                console.log(err)
+                console.log(err);
             } else {
-                console.log("Created a new folder for custom image upload")
+                console.log("Created a new folder for custom image upload");
             }
         });
         console.log(appRoot + '/public/images/' + req.session.id);
@@ -68,8 +68,9 @@ var getImages = function (req, res, next) {
 //end of get images
 
 var processImage = function (req, res, next, serviceProvider) {
+    var imageUrl = req.body.url;
+
     try {
-        var imageUrl = req.body.url;
         if (Object.prototype.hasOwnProperty.call(req.body, 'model')) {
             var model = req.body.model;
         }
@@ -92,17 +93,21 @@ var processImage = function (req, res, next, serviceProvider) {
                 }
             };
             try {
-                switch (serviceProvider) {
-                    case imageAnalysisServiceProvider.MICROSOFT:
-                        cognitiveService(imageUrl, model, callback);
-                        break;
-                    case imageAnalysisServiceProvider.IBM:
-                        watsonVisionService(imageUrl, model, callback);
-                        break;
-                    case imageAnalysisServiceProvider.CLARIFAI:
-                        clarifaiVisionAi.getPrediction(imageUrl, model, callback);
-                        break;
+                if (Object.prototype.hasOwnProperty.call(req.body, 'model')) {
+                    let model = req.body.model;
+                    switch (serviceProvider) {
+                        case imageAnalysisServiceProvider.MICROSOFT:
+                            cognitiveService(imageUrl, model, callback);
+                            break;
+                        case imageAnalysisServiceProvider.IBM:
+                            watsonVisionService(imageUrl, model, callback);
+                            break;
+                        case imageAnalysisServiceProvider.CLARIFAI:
+                            clarifaiVisionAi.getPrediction(imageUrl, model, callback);
+                            break;
+                    }
                 }
+               
             } catch (ex) {
                 console.log(ex);
             }
@@ -133,7 +138,7 @@ var myPostRouter = function (req, res, next) {
             res.sendStatus({
                 code: "404"
             });
-    };
+    }
 };
 //end of api method switch
 
