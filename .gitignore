@@ -1,5 +1,3 @@
-node_modules\*
 secrets.js
-node_modules
 .jshintrc
-.
+node_modules
